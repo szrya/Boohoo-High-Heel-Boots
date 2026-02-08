@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Be My Valentine ❤️</title>
+  <style>
+    :root {
+      /* Neutral, elegant palette */
+      --card: rgba(255, 255, 255, 0.96);
+      --text: #5a2a3a;
+      --accent1: #e85a70;
+      --accent2: #d94a64;
+      --accent3: #e5a3b0;
+      --accent4: #d98a9a;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg, #fff7f9 0%, #fffafb 40%, #ffffff 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    .hearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .heart {
+      position: absolute;
+      bottom: -40px;
+      font-size: 22px;
+      opacity: 0.85;
+      animation: floatUp linear infinite;
+      user-select: none;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0); opacity: 0; }
+      10% { opacity: 0.9; }
+      100% { transform: translateY(-110vh); opacity: 0; }
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      background: var(--card);
+      padding: 32px;
+      border-radius: 24px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+      max-width: 520px;
+      width: 90%;
+      text-align: center;
+    }
+
+    h1 {
+      color: #c94a63;
+      margin: 0 0 10px 0;
+      font-weight: 700;
+    }
+
+    .btnRow {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 12px;
+    }
+
+    button {
+      padding: 14px 22px;
+      font-size: 16px;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      color: white;
+    }
+
+    #noBtn {
+      background: linear-gradient(135deg, var(--accent3), var(--accent4));
+    }
+
+    .hidden { display: none; }
+
+    .proposalNote {
+      display: block;
+      margin-top: 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #6f4a58;
+    }
+
+    .question { text-align: left; margin-top: 20px; }
+
+    .options button {
+      display: block;
+      width: 100%;
+      margin: 8px 0;
+      background: linear-gradient(135deg, var(--accent3), var(--accent4));
+    }
+
+    .feedback { font-size: 13px; margin-top: 6px; }
+
+    .btnCorrect { box-shadow: 0 0 0 3px rgba(255,255,255,0.8); }
+    .btnWrong { opacity: 0.6; }
+
+    .photoGallery {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .photoGallery img {
+      width: 100%;
+      height: 110px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+    }
+  </style>
+</head>
+<body>
+  <div class="hearts" id="hearts"></div>
+
+  <div class="card">
+    <div id="proposal">
+      <h1>Will you be my Valentine? ❤️</h1>
+      <div class="btnRow">
+        <button type="button" onclick="sayYes()">Yes 💖</button>
+        <button type="button" id="noBtn" onclick="sayNo()">No 🙃</button>
+      </div>
+      <div class="proposalNote">(no is not an option ☹️)</div>
+    </div>
+
+    <div id="quiz" class="hidden">
+      <h1>Our Love Quiz 💌</h1>
+
+      <div class="question" data-q="kiss">
+        <h3>Where was our first kiss?</h3>
+        <div class="options">
+          <button type="button" data-correct="true">Trillium (Near the pool)</button>
+          <button type="button" data-correct="false">Exquisite Basement</button>
+          <button type="button" data-correct="false">In your living room</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question hidden" data-q="date">
+        <h3>Where was our first date?</h3>
+        <div class="options">
+          <button type="button" data-correct="false">Veronica's</button>
+          <button type="button" data-correct="true">Inorbit Mall</button>
+          <button type="button" data-correct="false">Gigi</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question hidden" data-q="tagline">
+        <h3>What was our first tagline in our first 6 months?</h3>
+        <div class="options">
+          <button type="button" data-correct="true">Chal chal sex</button>
+          <button type="button" data-correct="false">Mamma</button>
+          <button type="button" data-correct="false">Fish</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+
+      <div id="scoreCard" class="hidden">
+        <h2>Results 💘</h2>
+        <div id="scoreText" style="font-weight:600; margin-bottom:12px;"></div>
+        <div id="finalMessage" style="font-size:16px; line-height:1.5; color:#c2185b; margin-top:8px;">
+          I love you so much my little fish 🐟💖<br />
+          and thank you for always being there for me.
+        </div>
+
+        <!-- Photo gallery -->
+        <div class="photoGallery">
+          <img src="48d5ae00-45f6-42e5-ae36-25516cfc8189.JPG" alt="Dinner date" />
+          <img src="IMG_1258.jpg" alt="Late night walk" />
+          <img src="IMG_0476.jpg" alt="Formal night together" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function sayYes() {
+      document.getElementById('proposal').classList.add('hidden');
+      document.getElementById('quiz').classList.remove('hidden');
+      initQuiz();
+    }
+
+    function sayNo() {
+      const btn = document.getElementById('noBtn');
+      btn.style.transform = `translate(${Math.random()*200-100}px, ${Math.random()*100-50}px)`;
+    }
+
+    const state = { correct: 0 };
+
+    function initQuiz() {
+      const questions = document.querySelectorAll('.question');
+      questions.forEach((q, i) => {
+        q.querySelectorAll('button').forEach(btn => {
+          btn.addEventListener('click', () => {
+            if (btn.dataset.correct === 'true') state.correct++;
+            q.querySelector('.feedback').textContent = 'Locked in 💌';
+            q.querySelectorAll('button').forEach(b => b.disabled = true);
+            setTimeout(() => {
+              q.classList.add('hidden');
+              if (questions[i + 1]) {
+                questions[i + 1].classList.remove('hidden');
+              } else {
+                showResults();
+              }
+            }, 600);
+          }, { once: true });
+        });
+      });
+    }
+
+    function showResults() {
+      document.getElementById('scoreCard').classList.remove('hidden');
+      document.getElementById('scoreText').textContent = `${state.correct}/3 correct 💖`;
+    }
+
+    function spawnHeart() {
+      const h = document.createElement('div');
+      h.className = 'heart';
+      h.textContent = Math.random() < 0.5 ? '❤' : '💗';
+      h.style.left = Math.random() * 100 + 'vw';
+      h.style.animationDuration = (5 + Math.random() * 5) + 's';
+      document.getElementById('hearts').appendChild(h);
+      setTimeout(() => h.remove(), 10000);
+    }
+
+    setInterval(spawnHeart, 350);
+  </script>
+</body>
+</html>
